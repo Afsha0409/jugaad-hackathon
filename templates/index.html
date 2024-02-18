@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Companion</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+    <h1>Study Companion</h1>
+    <form method="post" action="/">
+        <label for="wakeup_time">Enter your wakeup time (HH:MM): </label>
+        <input type="text" id="wakeup_time" name="wakeup_time" required>
+        <br>
+        <label for="study_hours">How many hours did you study yesterday? </label>
+        <input type="number" id="study_hours" name="study_hours" required>
+        <br>
+        <label for="total_study_hours">Enter your total desired study hours for today: </label>
+        <input type="number" id="total_study_hours" name="total_study_hours" required>
+        <br>
+        <div id="subjects">
+            <label for="subject">Subject/Plan: </label>
+            <input type="text" name="subject" required>
+            <button type="button" onclick="addSubject()">Add Subject/Plan</button>
+        </div>
+        <br>
+        <input type="submit" value="Generate Schedule">
+    </form>
+
+    {% if schedule %}
+    <h2>Your Study Schedule:</h2>
+    <ul>
+        {% for session in schedule %}
+        <li>{{ session['start_time'] }} - {{ session['end_time'] }}: {{ session['subject'] }}</li>
+        {% endfor %}
+    </ul>
+    <p>Happy studying!</p>
+    {% endif %}
+
+    <script>
+        function addSubject() {
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = "subject";
+            input.required = true;
+            document.getElementById("subjects").appendChild(input);
+        }
+    </script>
+</body>
+
+</html>
